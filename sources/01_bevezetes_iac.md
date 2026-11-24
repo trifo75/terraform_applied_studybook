@@ -428,127 +428,143 @@ Nem. A plan a Terraform által ismert és előre jelezhető változtatásokat mu
 
 ## 1.10. Gyakorlófeladatok és teljes megoldások
 
-A feladatok fogalmiak; egyikhez sem szükséges Terraform telepítés, provider-konfiguráció vagy felhőfiók. A megoldásokat csak az önálló próbálkozás után olvasd el.
+Az alábbi feladatok a fejezetben bemutatott fogalmak megértését ellenőrzik. Mindegyik önállóan, papíron vagy jegyzetben is megoldható; Terraform-telepítésre, provider-konfigurációra és felhőfiókra nincs szükség. Először próbáld meg önállóan megoldani őket, majd hasonlítsd össze a válaszaidat a megoldásokkal.
 
-### 1. feladat – Az infrastruktúra felismerése
+### 1. feladat – Mi tartozik az infrastruktúrához?
 
-**Cél:** különbséget tenni infrastruktúra-erőforrás és alkalmazásfejlesztési tevékenység között.
+**Cél:** megkülönböztetni az infrastruktúra kezelését az alkalmazásfejlesztés és -tesztelés feladataitól.
 
-**Feladat:** sorold be az alábbi elemeket:
-1. virtuális hálózat létrehozása;
-2. alkalmazás forráskódjának lefordítása;
-3. objektumtár létrehozása;
-4. DNS-rekord kezelése;
-5. alkalmazás tesztjeinek futtatása;
-6. adatbázis-szolgáltatás példányának létrehozása.
+**Feladat:** Az alábbi hat tevékenység közül válaszd ki azokat, amelyek tipikusan infrastruktúra-kezelési feladatnak számítanak!
 
-Jelöld meg, melyek tipikus infrastruktúra-kezelési feladatok.
+1. Virtuális hálózat létrehozása.
+2. Egy alkalmazás forráskódjának lefordítása.
+3. Objektumtár létrehozása.
+4. DNS-rekord létrehozása vagy módosítása.
+5. Az alkalmazás automatikus tesztjeinek futtatása.
+6. Adatbázis-szolgáltatás példányának létrehozása.
 
-**Teljes megoldás:**
+**Megoldás és indoklás:**
 
-Tipikus infrastruktúra-kezelési feladat az 1., 3., 4. és 6. pont. Ezek hálózati, tárolási, névfeloldási vagy adatbázis-szolgáltatási erőforrásokat hoznak létre vagy kezelnek.
+Az **1., 3., 4. és 6.** tevékenység tipikus infrastruktúra-kezelési feladat: hálózati, tárolási, névfeloldási, illetve adatbázis-szolgáltatási erőforrásokat hoz létre vagy módosít.
 
-A 2. és 5. pont alkalmazásfejlesztési/build- és tesztelési tevékenység. Ezek kapcsolódhatnak az infrastruktúra életciklusához, de önmagukban nem tipikus Terraform-erőforráskezelési feladatok.
+A **2. és 5.** tevékenység az alkalmazás fejlesztési folyamatához tartozik: az első buildelés, a második tesztelés. Ezek kapcsolódhatnak az infrastruktúrához, de önmagukban nem infrastruktúra-erőforrások kezelését jelentik.
 
-### 2. feladat – Imperatív vagy deklaratív?
+### 2. feladat – Imperatív vagy deklaratív leírás?
 
-**Cél:** felismerni, hogy egy leírás lépéseket vagy célállapotot rögzít.
+**Cél:** felismerni, hogy egy utasítás a végrehajtandó lépéseket vagy az elérendő állapotot írja-e le.
 
-**Feladat:** osztályozd a következő állításokat!
+**Feladat:** Döntsd el az alábbi példákról, hogy imperatív vagy deklaratív megközelítést képviselnek! Minden esetben indokold meg röviden a válaszodat.
 
-A. „Hozz létre egy hálózatot, majd abban egy alhálózatot, végül csatlakoztass hozzá egy gépet.”
+**A.** „Hozz létre egy hálózatot, majd abban egy alhálózatot, végül csatlakoztass hozzá egy virtuális gépet.”
 
-B. „Legyen egy hálózat, benne egy alhálózat és egy ahhoz csatlakozó gép.”
+**B.** „Legyen egy hálózat, benne egy alhálózat és egy ahhoz csatlakozó virtuális gép.”
 
-C. „Ha a gép még nem létezik, hozd létre; ha létezik, ellenőrizd a méretét, és szükség esetén módosítsd.”
+**C.** „Ha a virtuális gép még nem létezik, hozd létre; ha már létezik, ellenőrizd a méretét, és ha szükséges, módosítsd.”
 
-**Teljes megoldás:**
+**Megoldás és indoklás:**
 
-- **A: imperatív.** A leírás végrehajtandó lépéseket és sorrendet ad meg.
-- **B: deklaratív.** A kívánt végállapotot rögzíti, a létrehozási lépések meghatározását a végrehajtó rendszerre bízza.
-- **C: imperatív jellegű eljárás.** Feltételes lépéseket és műveleti logikát ír elő. Egy deklaratív rendszer belsőleg végezhet hasonló ellenőrzéseket, de a feladat leírása itt az eljárást részletezi.
+- **A: imperatív.** A leírás konkrét műveleteket sorol fel, és azok végrehajtási sorrendjét is meghatározza.
+- **B: deklaratív.** A leírás a kívánt végeredményt rögzíti. Nem mondja meg, milyen lépésekben kell létrehozni az erőforrásokat.
+- **C: imperatív jellegű.** Feltételeket és az azokhoz tartozó műveleteket ír elő. A leírás azt mondja meg, hogyan járjon el a végrehajtó az egyes esetekben.
+
+A besorolásnál nem az számít, hogy a mondat hétköznapi nyelven vagy programkódban szerepel-e, hanem az, hogy lépéseket vagy elérendő állapotot határoz meg.
 
 ### 3. feladat – Desired state, actual state és drift
 
-**Cél:** elkülöníteni a konfigurációban rögzített célt a külső rendszer tényleges állapotától.
+**Cél:** elkülöníteni a konfigurációban megadott kívánt állapotot a külső rendszerben ténylegesen fennálló állapottól.
 
-**Feladat:** egy konfiguráció két alkalmazáspéldányt ír le. A szolgáltatói felületen valaki kézzel létrehoz egy harmadikat.
+**Feladat:** Egy Terraform-konfiguráció két alkalmazáspéldány kezelését írja le. Később egy rendszergazda a felhőszolgáltató kezelőfelületén, a Terraform használata nélkül létrehoz egy harmadik példányt.
 
-Válaszolj:
-1. Mi a desired state?
-2. Mi az actual state?
-3. Történt-e drift?
-4. Visszaállítja-e a Terraform automatikusan az eltérést abban a pillanatban, amikor a kézi létrehozás megtörténik?
+Válaszolj a következő kérdésekre:
 
-**Teljes megoldás:**
+1. Hány példány a desired state?
+2. Hány példány az actual state a kézi létrehozás után?
+3. Kialakult-e drift? Miért?
+4. Visszaállítja-e a Terraform automatikusan az eredeti állapotot abban a pillanatban, amikor a harmadik példány létrejön?
 
-1. A desired state két alkalmazáspéldány, mert ezt írja le a konfiguráció.
-2. Az actual state három példány, mert jelenleg ennyi létezik a külső rendszerben.
-3. Igen, a kívánt és a tényleges állapot eltér, ezért drift alakult ki.
-4. Nem. A hagyományos Terraform CLI nem folyamatosan futó vezérlő. A felhasználónak vagy automatizmusnak új műveletet kell indítania, hogy a Terraform újra felmérje az állapotot és tervet készítsen. A terv eredményét ellenőrizni kell, mielőtt alkalmazzuk.
+**Megoldás és indoklás:**
 
-### 4. feladat – A Terraform komponenseinek szétválasztása
+1. A **desired state két példány**, mert ennyit ír le a Terraform-konfiguráció.
+2. Az **actual state három példány**, mert a külső rendszerben a kézi módosítás után ennyi példány létezik.
+3. **Igen, drift alakult ki:** a tényleges állapot eltér a konfigurációban leírt kívánt állapottól.
+4. **Nem.** A hagyományos Terraform CLI-munkafolyamat nem folyamatosan futó vezérlő, ezért nem reagál azonnal a külső rendszerben végrehajtott kézi módosításra. Új Terraform-műveletet kell indítani ahhoz, hogy a rendszer ismét felmérje az állapotot és tervet készítsen. A tervet alkalmazás előtt ellenőrizni kell.
 
-**Cél:** megérteni, melyik komponens milyen felelősséget lát el.
+### 4. feladat – A Terraform fő összetevőinek azonosítása
 
-**Feladat:** rendeld a fogalmakhoz a megfelelő leírást!
+**Cél:** megkülönböztetni a Terraform működésének fő összetevőit és azok feladatait.
+
+**Feladat:** Párosítsd az 1–4. pontban felsorolt fogalmakat az A–D jelű leírásokkal! Minden fogalomhoz egyetlen leírás tartozik.
+
+**Fogalmak:**
 
 1. Terraform Core
 2. HCL / Terraform Configuration Language
 3. Provider
 4. State
 
-Leírások:
+**Leírások:**
 
-A. A konfiguráció szintaxisa és kifejezőeszközei.
-B. A kezelt erőforráspéldányok és külső objektumok kapcsolatainak nyilvántartása.
-C. A külső platform API-jával kommunikáló plugin.
-D. A konfiguráció feldolgozását, függőségeket, tervezést és műveletkoordinációt végző központi motor.
+- **A.** A Terraform-konfiguráció leírására szolgáló nyelvi elemek és szintaxis.
+- **B.** A Terraform által kezelt erőforráspéldányok és a külső rendszerben lévő objektumok kapcsolatát, valamint a működéshez szükséges állapotadatokat tartalmazó nyilvántartás.
+- **C.** Olyan plugin, amelyen keresztül a Terraform egy külső platform vagy szolgáltatás API-jával kommunikál.
+- **D.** A konfiguráció feldolgozását, a függőségek kezelését, a terv elkészítését és a műveletek koordinálását végző központi motor.
 
-**Teljes megoldás:**
+**Megoldás és indoklás:**
 
-1–D, 2–A, 3–C, 4–B.
+- **1–D:** a Terraform Core a központi motor.
+- **2–A:** a HCL-alapú Terraform Configuration Language segítségével írjuk le a konfigurációt.
+- **3–C:** a provider kapcsolja össze a Terraformot az adott külső rendszer API-jával.
+- **4–B:** a state a Terraform által kezelt objektumok és a hozzájuk tartozó állapotadatok nyilvántartása.
 
-Különösen fontos, hogy a provider nem a Terraform Core része, és a state sem a kívánt infrastruktúra leírása. A kívánt állapotot a konfiguráció fejezi ki; a state a Terraform nyilvántartását adja.
+A provider tehát nem része a Terraform Core-nak, a state pedig nem a kívánt infrastruktúra leírása. A kívánt állapotot a konfiguráció fejezi ki.
 
-### 5. feladat – Melyik eszközkategória illik a feladathoz?
+### 5. feladat – Melyik eszköz mire való?
 
-**Cél:** felismerni a Terraform szerepét egy teljes üzemeltetési folyamatban.
+**Cél:** felismerni, hogy egy üzemeltetési feladat tipikusan a Terraformhoz vagy egy másik eszközkategóriához tartozik-e.
 
-**Feladat:** válaszd ki, hogy a Terraform vagy inkább más eszközkategória illik-e az elsődleges feladathoz!
+**Feladat:** Az alábbi feladatok mindegyikéhez válaszd ki a leginkább megfelelő eszközkategóriát az alábbiak közül:
+
+- Terraform / Infrastructure as Code;
+- konfigurációmenedzsment vagy image build eszköz;
+- build rendszer;
+- monitoring/observability rendszer.
+
+**Feladatok:**
 
 1. Virtuális hálózat és alhálózat létrehozása.
-2. Operációs rendszerre csomagok telepítése.
-3. Alkalmazás lefordítása.
-4. DNS-rekord létrehozása.
-5. Alkalmazásmetrikák megjelenítése dashboardon.
+2. Szoftvercsomagok telepítése egy már működő virtuális gép operációs rendszerére.
+3. Egy alkalmazás forráskódjának lefordítása.
+4. DNS-rekord létrehozása egy támogatott DNS-szolgáltatónál.
+5. Egy alkalmazás metrikáinak megjelenítése és figyelése dashboardon.
 
-**Teljes megoldás:**
+**Megoldás és indoklás:**
 
-1. Terraform / IaC.
-2. Konfigurációmenedzsment vagy image build eszköz.
-3. Build rendszer.
-4. Terraform / IaC, ha a választott provider támogatja a DNS-szolgáltatást.
-5. Monitoring/observability rendszer.
+1. **Terraform / IaC:** a hálózat és az alhálózat infrastruktúra-erőforrás.
+2. **Konfigurációmenedzsment vagy image build eszköz:** ez a feladat a gép operációs rendszerének és szoftverkörnyezetének beállításáról szól.
+3. **Build rendszer:** a forráskód fordítása az alkalmazás buildfolyamatának része.
+4. **Terraform / IaC:** a DNS-rekord külső szolgáltatásban kezelt erőforrás lehet; Terraformmal akkor kezelhető, ha az adott szolgáltatáshoz rendelkezésre áll megfelelő provider és resource.
+5. **Monitoring/observability rendszer:** ez a kategória gyűjti, feldolgozza és jeleníti meg a működésről szóló mérőszámokat.
 
-A feladatok egy nagyobb folyamatban összekapcsolódhatnak. A Terraform létrehozhatja az alkalmazás futtatásához szükséges infrastruktúrát, miközben más eszköz építi, telepíti és monitorozza az alkalmazást.
+Egy valós rendszerben ezek az eszközök együtt dolgozhatnak. A Terraform például létrehozza az alkalmazás futtatásához szükséges infrastruktúrát, a build rendszer előállítja az alkalmazást, egy deployment eszköz telepíti, a monitoringrendszer pedig figyeli annak működését.
 
-### 6. feladat – A munkafolyamat helyes sorrendje
+### 6. feladat – A Terraform-munkafolyamat lépései
 
-**Cél:** megérteni a Write–Plan–Apply folyamatot és a felülvizsgálat szerepét.
+**Cél:** megérteni a konfiguráció elkészítése, a terv felülvizsgálata és a változtatások alkalmazása közötti sorrendet.
 
-**Feladat:** rendezd helyes sorrendbe a lépéseket!
+**Feladat:** Tedd helyes sorrendbe az alábbi lépéseket! A betűjeleket írd egymás után a megfelelő sorrendben.
 
-- A. A változtatások alkalmazása.
-- B. A konfiguráció megírása vagy módosítása.
-- C. A terv áttekintése és jóváhagyása.
-- D. A végrehajtási terv elkészítése.
+- **A.** A tervezett változtatások alkalmazása.
+- **B.** A Terraform-konfiguráció megírása vagy módosítása.
+- **C.** A végrehajtási terv áttekintése és jóváhagyása.
+- **D.** A végrehajtási terv elkészítése.
 
-**Teljes megoldás:**
+**Megoldás és indoklás:**
 
-Helyes sorrend: **B → D → C → A**.
+A helyes sorrend: **B → D → C → A**.
 
-Először elkészítjük a konfigurációt, utána a Terraform tervet készít. A tervet felülvizsgáljuk, és csak megfelelő eredmény esetén alkalmazzuk. Az Apply után a következő módosítási igény új ciklust indít.
+Először elkészítjük vagy módosítjuk a konfigurációt (**Write**). Ezután a Terraform végrehajtási tervet készít (**Plan**). A tervet áttekintjük, ellenőrizzük a várható létrehozásokat, módosításokat és törléseket, majd jóváhagyjuk (**Review**). Csak ezt követően alkalmazzuk a változtatásokat (**Apply**).
+
+A folyamat a későbbiekben ismétlődik: ha változik az infrastruktúra kívánt állapota, módosítjuk a konfigurációt, és új tervet készítünk.
 
 ---
 
