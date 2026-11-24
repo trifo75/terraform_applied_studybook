@@ -14,7 +14,6 @@ A fejezet végére képes leszel:
 - elvégezni az első, infrastruktúrát nem létrehozó ellenőrzéseket.
 
 **Előfeltétel:** az 1. fejezetben bemutatott alapfogalmak ismerete. Korábbi Terraform-telepítésre vagy felhőszolgáltatói fiókra nincs szükség.
-
 ---
 
 ## 2.1. Milyen elemekből áll a fejlesztői környezet?
@@ -39,7 +38,6 @@ A Terraform parancsokat terminálból futtatjuk. Windows alatt jellemző a Power
 A Terraform-fájlokat bármely szövegszerkesztővel módosíthatod. A VS Code HashiCorp Terraform bővítménye szintaxiskiemelést és kódkiegészítést ad, de nem helyettesíti a CLI-ellenőrzéseket. A Git verziókezeléshez és csapatmunkához ajánlott.
 
 A helyi példákhoz nem kell felhőfiók. Felhőprovider használatakor külön gondoskodj a hitelesítésről és jogosultságokról; valódi hozzáférési adatot ne írj konfigurációba vagy verziókezelt fájlba.
-
 ---
 
 ## 2.2. Terraform-verziók és verziókorlátozás
@@ -105,7 +103,6 @@ A példa magyarázata:
 A `~> 2.5` pessimistic constraint. A két komponensből álló alak a 2.5-ös vagy annál újabb, de 3.0.0 előtti verziókat engedi. A verziókorlátozások pontos jelentését mindig ellenőrizd, mielőtt egy projektben alkalmazod.
 
 A `required_version` tehát a Terraform CLI-re, a `required_providers.version` pedig egy provider pluginra vonatkozik.
-
 ---
 
 ## 2.3. A Terraform CLI telepítése
@@ -145,7 +142,6 @@ terraform -help
 Ha a PowerShell azt jelzi, hogy a `terraform` parancs nem található, ellenőrizd, hogy a bináris a megadott könyvtárban van-e, a könyvtár szerepel-e a `Path` változóban, új terminálablakot nyitottál-e, és nem hibás kiterjesztésű fájlt csomagoltál-e ki.
 
 A WSL külön Linux-környezetet biztosít Windows alatt. Ha ezt választod, a Terraformot a WSL disztribúciójához telepítsd, és a WSL termináljából futtasd. Ne keverd össze a Windowsos `terraform.exe`-t a Linux binárissal.
-
 ---
 
 ### 2.3.3. macOS – Homebrew
@@ -198,7 +194,6 @@ A `sudo` rendszergazdai jogosultsággal futtatja az adott parancsot. Csak olyan 
 A fenti repository-beállítás a HashiCorp dokumentációjában szereplő Ubuntu/Debian útmutatót követi. Régebbi vagy származtatott disztribúciókon a kiadás kódnevének feloldása eltérhet; ilyenkor a hivatalos telepítési oldalon ellenőrizd a saját disztribúciódra vonatkozó utasítást.
 
 RHEL-alapú rendszereken és Fedora alatt a HashiCorp külön RPM repository-t biztosít. A pontos, disztribúcióhoz illő utasítást a hivatalos telepítési oldalon válaszd ki.
-
 ---
 
 Manuális telepítésnél töltsd le a hivatalos oldalról a megfelelő verziójú, rendszerű és architektúrájú ZIP archívumot. Linux AMD64 példa:
@@ -211,7 +206,6 @@ sudo install terraform /usr/local/bin/terraform
 A `<VERSION>` helyére a letöltött verzió kerül; ARM64 rendszerhez másik archívum szükséges. A célkönyvtár legyen a `PATH` változóban.
 
 Ellenőrizd a HashiCorp checksum-lista digitális aláírását és az archívum SHA-256 értékét. A checksum egyezése önmagában nem igazolja a lista eredetét. Útmutató: https://developer.hashicorp.com/terraform/tutorials/cli/verify-archive
-
 ---
 
 ## 2.4. A telepítés ellenőrzése
@@ -224,7 +218,6 @@ terraform -help
 ```
 
 Az első parancs a CLI verzióját, a második a súgót jeleníti meg. A `terraform plan -help` egy adott parancs opcióit mutatja meg. Több telepítés esetén a `Get-Command terraform -All` (PowerShell), illetve a `command -v terraform` (Linux/macOS) megmutatja a használt bináris helyét.
-
 ---
 
 ## 2.5. A szerkesztő és a Terraform-bővítmény beállítása
@@ -234,7 +227,6 @@ A példákhoz a Visual Studio Code használatát javasoljuk, de más szerkesztő
 VS Code-ban telepítsd a hivatalos **HashiCorp Terraform** bővítményt: https://marketplace.visualstudio.com/items?itemName=HashiCorp.terraform
 
 A bővítmény szintaxiskiemelést, IntelliSense-kiegészítést és diagnosztikát adhat. Provider-specifikus kiegészítésekhez szükség lehet a projekt inicializálására. A szerkesztő nem helyettesíti a CLI-ellenőrzéseket: a `fmt` formáz, a `validate` ellenőriz, a `plan` a tervezett változásokat mutatja be.
-
 ---
 
 ## 2.6. Projektmappa és fájlszerkezet
@@ -309,7 +301,6 @@ A `*.tfvars` kizárása gyakori, mert ilyen fájlokban lehetnek környezetspecif
 A `.terraform.lock.hcl` fájlt ezzel szemben általában commitoljuk. A provider-verziók és ellenőrzőösszegek reprodukálhatósága miatt fontos.
 
 A Terraform a munkakönyvtár `.tf` és `.tf.json` fájljait együtt dolgozza fel. A `main.tf`, `variables.tf`, `outputs.tf` és `versions.tf` elnevezés konvenció; a szétválasztás az áttekinthetőséget segíti.
-
 ---
 
 ## 2.7. Első projekt és biztonságos ellenőrzések
@@ -355,7 +346,6 @@ terraform validate
 A `fmt -check` ellenőrzi, de nem írja át a formázást. Az `init -backend=false` előkészíti a munkakönyvtárat backend inicializálása nélkül. A `validate` a konfigurációt ellenőrzi; előtte inicializálni kell a munkakönyvtárat.
 
 A példa nem tartalmaz providert vagy erőforrást. A `plan` és `apply` használatát a következő fejezet tárgyalja.
-
 ---
 
 ## 2.8. Gyakori hibák és megoldásuk
@@ -369,7 +359,6 @@ A példa nem tartalmaz providert vagy erőforrást. A `plan` és `apply` haszná
 | A `.terraform/` bekerül a Git változásai közé | Add hozzá a `.gitignore` fájlhoz. Ha a Git már követi, a kizárási szabály önmagában nem elég. |
 | A lock fájl nem kerül commitba | Ellenőrizd, hogy nem zárja-e ki egy általános `.gitignore` minta. |
 | A `validate` inicializálást jelez | Futtasd a `terraform init` parancsot, majd ismételd meg a validációt. |
-
 ---
 
 ## 2.9. Gyakorlófeladatok és teljes megoldások
@@ -558,7 +547,6 @@ D) `terraform plan`
 - D → 4. A `plan` a tervezett változásokat mutatja meg.
 
 A négy eszköz különböző feladatot lát el. Egyik sem helyettesíti automatikusan a másikat.
-
 ---
 
 ## 2.10. Összefoglalás
@@ -588,7 +576,6 @@ A következő fejezet előtt ellenőrizd, hogy önállóan meg tudod-e válaszol
 6. Miért nem bizonyítja a szerkesztő hibajelzésének hiánya, hogy a Terraform-konfiguráció végrehajtható?
 
 Ha ezekre a kérdésekre saját szavaiddal tudsz válaszolni, és a minimális projektet hiba nélkül ellenőrizted, készen állsz a következő fejezetre.
-
 ---
 
 ## Hivatalos források és további olvasnivaló
