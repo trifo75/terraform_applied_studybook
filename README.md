@@ -1,7 +1,5 @@
 # Terraform Applied
 
-![Terraform Applied – okkersárga, vonalrajzos borító](./assets/terraform-applied-cover.png)
-
 **Oktatókönyv és nyelvi referencia – az alapoktól a haladó szintig**
 
 A **Terraform Applied** egy magyar nyelvű, önálló tanulásra készült oktatókönyv és gyakorlati referencia az Infrastructure as Code (IaC), a Terraform és a HashiCorp Configuration Language (HCL) világához.
