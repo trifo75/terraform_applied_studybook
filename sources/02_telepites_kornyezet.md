@@ -90,11 +90,11 @@ Ezek nem ugyanazok. A provider nem a Terraform Core része, és a provider verzi
 
 A `required_version` a `terraform` blokkon belül adja meg, hogy a konfiguráció milyen Terraform CLI-verziókkal használható.
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 }
-\`\`\`
+```
 
 A példa elemei:
 - `terraform`: a Terraform saját beállításait tartalmazó blokk;
@@ -110,7 +110,7 @@ A verziókorlátozás megválasztása tudatos döntés. Ne másold át automatik
 
 A provider forrását és verziótartományát a `required_providers` blokkban deklaráljuk. Egy későbbi fejezetben részletesen foglalkozunk a providerekkel; itt a verziók közötti különbség megértése a cél.
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
@@ -121,7 +121,7 @@ terraform {
     }
   }
 }
-\`\`\`
+```
 
 A példa magyarázata:
 - `required_providers`: a konfigurációhoz szükséges providereket sorolja fel;
@@ -157,18 +157,18 @@ A `Path` környezeti változóban felsorolt könyvtárakban a shell külön elé
 
 PowerShellben az elérési út ellenőrizhető:
 
-\`\`\`powershell
+```powershell
 $env:Path -split ';'
-\`\`\`
+```
 
 A parancs a pontosvesszők mentén külön sorokra bontja a `Path` értékét. Ha a Terraform könyvtára nem szerepel a listában, a környezeti változót javítani kell, majd új terminált kell nyitni.
 
 Ellenőrzés:
 
-\`\`\`powershell
+```powershell
 terraform version
 terraform -help
-\`\`\`
+```
 
 Ha a PowerShell azt jelzi, hogy a `terraform` parancs nem található, ellenőrizd, hogy a bináris a megadott könyvtárban van-e, a könyvtár szerepel-e a `Path` változóban, új terminálablakot nyitottál-e, és nem hibás kiterjesztésű fájlt csomagoltál-e ki.
 
@@ -182,19 +182,19 @@ A WSL külön Linux-környezetet ad, saját fájlrendszerrel, csomagkezelővel �
 
 macOS alatt a Homebrew csomagkezelővel telepíthető a Terraform.
 
-\`\`\`bash
+```bash
 brew tap hashicorp/tap
 brew install hashicorp/tap/terraform
-\`\`\`
+```
 
 Az első parancs hozzáadja a HashiCorp csomagtárolóját (tap) a Homebrew konfigurációjához. A második telepíti a Terraform csomagot ebből a tárolóból.
 
 Ellenőrzés:
 
-\`\`\`bash
+```bash
 terraform version
 terraform -help
-\`\`\`
+```
 
 Ha a `brew` parancs sem ismert, először a Homebrew telepítését és a shell konfigurációját kell rendbe tenni. A Homebrew telepítésének aktuális útmutatója: https://brew.sh/
 
@@ -202,17 +202,17 @@ Ha a `brew` parancs sem ismert, először a Homebrew telepítését és a shell 
 
 Ubuntu és Debian rendszeren a HashiCorp hivatalos APT csomagtárolója használható. Az alábbi parancsok a HashiCorp által dokumentált telepítési folyamatot követik.
 
-\`\`\`bash
-wget -O - https://apt.releases.hashicorp.com/gpg \\
-  | sudo gpg --dearmor \\
+```bash
+wget -O - https://apt.releases.hashicorp.com/gpg \
+  | sudo gpg --dearmor \
   -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" \\
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" \
   | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
 sudo apt update
 sudo apt install terraform
-\`\`\`
+```
 
 A parancsok szerepe:
 1. A `wget` letölti a HashiCorp csomagtárolójának nyilvános aláírókulcsát.
@@ -233,20 +233,20 @@ RHEL-alapú rendszereken a HashiCorp RPM repository használható. A pontos para
 
 RHEL példa:
 
-\`\`\`bash
+```bash
 sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/RHEL/hashicorp.repo
 sudo yum -y install terraform
-\`\`\`
+```
 
 Fedora példa:
 
-\`\`\`bash
-wget -O- https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \\
+```bash
+wget -O- https://rpm.releases.hashicorp.com/fedora/hashicorp.repo \
   | sudo tee /etc/yum.repos.d/hashicorp.repo
 
 sudo dnf -y install terraform
-\`\`\`
+```
 
 A `yum` és a `dnf` RPM-alapú rendszerek csomagkezelő eszközei. A `yum-config-manager` repository-beállítást ad hozzá, a `dnf install` pedig telepíti a csomagot.
 
@@ -266,10 +266,10 @@ A folyamat általános lépései:
 
 Példa a kicsomagolásra, ha az archívum már a jelenlegi könyvtárban van:
 
-\`\`\`bash
+```bash
 unzip terraform_<VERSION>_linux_amd64.zip
 sudo install terraform /usr/local/bin/terraform
-\`\`\`
+```
 
 A `<VERSION>` helyére a ténylegesen letöltött verziót kell írni; a szögletes zárójel itt helykitöltő, nem szó szerint beírandó érték. Az `install` parancs a binárist a célhelyre másolja, és a célfájl jogosultságait is beállítja.
 
@@ -299,23 +299,23 @@ A csomagkezelő által kezelt telepítéseknél a repository aláírásának és
 
 A telepítés után nyiss új terminálablakot, és futtasd:
 
-\`\`\`bash
+```bash
 terraform version
-\`\`\`
+```
 
 A kimenet megmutatja a Terraform CLI telepített verzióját. A pontos szöveg a kiadástól függ, ezért ne várj minden gépen karakterre pontosan azonos kimenetet.
 
 A következő parancs az általános súgót jeleníti meg:
 
-\`\`\`bash
+```bash
 terraform -help
-\`\`\`
+```
 
 Egy konkrét parancs részletes súgója például:
 
-\`\`\`bash
+```bash
 terraform plan -help
-\`\`\`
+```
 
 A `-help` kapcsolóval a parancs argumentumait és opcióit ismerheted meg. Ez különösen hasznos, mert a CLI súgója a ténylegesen telepített verzióhoz tartozik.
 
@@ -325,16 +325,16 @@ Előfordulhat, hogy egy gépen több Terraform-bináris is megtalálható. Ilyen
 
 Windows PowerShell:
 
-\`\`\`powershell
+```powershell
 Get-Command terraform -All
-\`\`\`
+```
 
 Linux vagy macOS:
 
-\`\`\`bash
+```bash
 command -v terraform
 which -a terraform
-\`\`\`
+```
 
 Ezek segítenek megállapítani, hogy a shell honnan tölti be a `terraform` parancsot. Ha több példány is szerepel az útvonalon, ellenőrizd a sorrendet, és távolítsd el vagy rendezd a felesleges bejegyzéseket.
 
@@ -342,9 +342,9 @@ Ezek segítenek megállapítani, hogy a shell honnan tölti be a `terraform` par
 
 A Terraform CLI támogatja a parancsok és bizonyos argumentumok shell-szintű kiegészítését Bash és Zsh alatt.
 
-\`\`\`bash
+```bash
 terraform -install-autocomplete
-\`\`\`
+```
 
 A parancs telepíti az automatikus kiegészítéshez szükséges shell-beállítást. A módosítás érvényesítéséhez indíts új terminált, vagy töltsd újra a shell konfigurációs fájlját.
 
@@ -390,7 +390,7 @@ A Terraform egy munkakönyvtárban található konfigurációs fájlokat együtt
 
 Például:
 
-\`\`\`text
+```text
 terraform-learning/
 ├── README.md
 ├── .gitignore
@@ -399,7 +399,7 @@ terraform-learning/
 ├── variables.tf
 ├── outputs.tf
 └── terraform.tfvars.example
-\`\`\`
+```
 
 A fájlnevek szerepe:
 - `README.md`: a projekt célját, használatát és előfeltételeit dokumentálja;
@@ -428,7 +428,7 @@ A lock fájl alapvetően a providerek kiválasztását rögzíti; nem helyettes�
 
 ### 2.6.3. Példa .gitignore fájl
 
-\`\`\`gitignore
+```gitignore
 # Terraform által létrehozott helyi munkakönyvtár
 .terraform/
 
@@ -447,7 +447,7 @@ crash.*.log
 
 # A lock fájlt szándékosan NEM zárjuk ki:
 # .terraform.lock.hcl
-\`\`\`
+```
 
 A `.gitignore` a Git viselkedését szabályozza, nem a Terraformét. A minták a Git által követésbe még fel nem vett fájlokra hatnak; egy korábban már követett fájlt a `.gitignore` önmagában nem vesz ki a repositoryból.
 
@@ -473,17 +473,17 @@ Hozz létre egy `terraform-learning` nevű könyvtárat, majd lépj be:
 
 Windows PowerShell:
 
-\`\`\`powershell
+```powershell
 New-Item -ItemType Directory -Path terraform-learning
 Set-Location terraform-learning
-\`\`\`
+```
 
 macOS vagy Linux:
 
-\`\`\`bash
+```bash
 mkdir terraform-learning
 cd terraform-learning
-\`\`\`
+```
 
 A `mkdir` könyvtárat hoz létre, a `cd` pedig belép az adott könyvtárba. PowerShellben a `Set-Location` ugyanezt a szerepet tölti be.
 
@@ -491,11 +491,11 @@ A `mkdir` könyvtárat hoz létre, a `cd` pedig belép az adott könyvtárba. Po
 
 Hozz létre egy `versions.tf` nevű fájlt a következő tartalommal:
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 }
-\`\`\`
+```
 
 A blokk csak a Terraform CLI-re vonatkozó verziótartományt rögzíti. A fejezetben bemutatott tartomány oktatási példa; a projektben mindig az alkalmazott funkciókhoz és a csapat által tesztelt verziókhoz igazítsd.
 
@@ -503,17 +503,17 @@ A blokk csak a Terraform CLI-re vonatkozó verziótartományt rögzíti. A fejez
 
 Futtasd:
 
-\`\`\`bash
+```bash
 terraform fmt
-\`\`\`
+```
 
 A parancs a Terraform-konfigurációs fájlokat a Terraform által elvárt formára rendezi. A formázás nem módosít infrastruktúrát.
 
 Ha csak ellenőrizni szeretnéd, hogy szükséges-e formázási módosítás, használd:
 
-\`\`\`bash
+```bash
 terraform fmt -check
-\`\`\`
+```
 
 A `-check` kapcsolóval a parancs nem írja át a fájlokat; hibajelzést ad, ha formázási eltérést talál.
 
@@ -521,9 +521,9 @@ A `-check` kapcsolóval a parancs nem írja át a fájlokat; hibajelzést ad, ha
 
 A minimális projektben nincs provider és nincs külön backend-beállítás. A validációs folyamat előkészítéséhez futtasd:
 
-\`\`\`bash
+```bash
 terraform init -backend=false
-\`\`\`
+```
 
 A `terraform init` előkészíti a munkakönyvtárat. A `-backend=false` kapcsoló azt kéri, hogy a Terraform ne inicializálja a konfiguráció backendjét. Ez a példa nem állít be remote state-et.
 
@@ -533,9 +533,9 @@ A parancs létrehozhatja a `.terraform/` könyvtárat és a működéshez szüks
 
 Ezután:
 
-\`\`\`bash
+```bash
 terraform validate
-\`\`\`
+```
 
 A `validate` ellenőrzi, hogy a konfiguráció szintaktikailag helyes-e és belsőleg konzisztens-e. A parancs futtatása előtt a munkakönyvtárat inicializálni kell.
 
@@ -636,10 +636,10 @@ A feladatok a fejezetben bemutatott ismereteket használják. A megoldások a fe
 
 **Megoldás és indoklás:**
 
-\`\`\`bash
+```bash
 terraform version
 terraform -help
-\`\`\`
+```
 
 PowerShellben ugyanezeket a parancsokat használhatod. A verziószám a telepített CLI-t azonosítja. A súgó megjelenése azt mutatja, hogy a shell megtalálta és el tudta indítani a Terraformot.
 
@@ -653,7 +653,7 @@ Ha a parancs nem található, Windows alatt a `Get-Command terraform -All`, Linu
 
 **Feladat:** értelmezd az alábbi konfigurációt, és válaszolj a kérdésekre.
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 
@@ -664,7 +664,7 @@ terraform {
     }
   }
 }
-\`\`\`
+```
 
 1. Melyik beállítás korlátozza a Terraform CLI verzióját?
 2. Melyik beállítás adja meg a provider forrását?
@@ -690,11 +690,11 @@ terraform {
 3. Hozz létre benne egy `versions.tf` fájlt.
 4. Írd bele az alábbi verziókorlátozást:
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 }
-\`\`\`
+```
 
 5. Hozz létre egy `.gitignore` fájlt, amely legalább a `.terraform/` könyvtárat és a state fájlokat kizárja.
 
@@ -702,36 +702,36 @@ terraform {
 
 Windows PowerShell:
 
-\`\`\`powershell
+```powershell
 New-Item -ItemType Directory -Path my-first-terraform-project
 Set-Location my-first-terraform-project
 New-Item -ItemType File -Path versions.tf
 New-Item -ItemType File -Path .gitignore
-\`\`\`
+```
 
 Linux vagy macOS:
 
-\`\`\`bash
+```bash
 mkdir my-first-terraform-project
 cd my-first-terraform-project
 touch versions.tf .gitignore
-\`\`\`
+```
 
 A `versions.tf` tartalma:
 
-\`\`\`hcl
+```hcl
 terraform {
   required_version = ">= 1.10.0, < 2.0.0"
 }
-\`\`\`
+```
 
 A `.gitignore` minimális tartalma:
 
-\`\`\`gitignore
+```gitignore
 .terraform/
 *.tfstate
 *.tfstate.*
-\`\`\`
+```
 
 A `versions.tf` a CLI követelményét rögzíti. A `.gitignore` megakadályozza, hogy a Git a helyi inicializálási könyvtárat és az állapotfájlokat automatikusan új fájlként kezelje. A tényleges projektben a 2.6.3. alfejezetben szereplő további kizárásokat is érdemes megfontolni.
 
@@ -772,11 +772,11 @@ A `versions.tf` a CLI követelményét rögzíti. A `.gitignore` megakadályozza
 
 **Megoldás és indoklás:**
 
-\`\`\`bash
+```bash
 terraform fmt -check
 terraform init -backend=false
 terraform validate
-\`\`\`
+```
 
 A `fmt -check` a formázást ellenőrzi, de nem írja át a fájlokat. Az `init -backend=false` előkészíti a munkakönyvtárat backend inicializálása nélkül. A `validate` a konfiguráció szintaktikai és belső konzisztenciáját ellenőrzi.
 
