@@ -1,6 +1,6 @@
 # Terraform Applied
 
-![Terraform Applied – okkersárga, vonalrajzos borító](./assets/terraform-applied-cover.svg)
+![Terraform Applied – okkersárga, vonalrajzos borító](./assets/terraform-applied-cover.png)
 
 **Oktatókönyv és nyelvi referencia – az alapoktól a haladó szintig**
 
