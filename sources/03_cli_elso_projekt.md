@@ -228,7 +228,7 @@ Hozd létre a \`main.tf\` fájlt:
 
 ~~~hcl
 resource "local_file" "greeting" {
-  filename = "\${path.module}/greeting.txt"
+  filename = "${path.module}/greeting.txt"
   content  = "Az első Terraform-erőforrásom."
 }
 ~~~
@@ -396,7 +396,7 @@ Ha átírod a \`content\` értékét a \`main.tf\` fájlban:
 
 ~~~hcl
 resource "local_file" "greeting" {
-  filename = "\${path.module}/greeting.txt"
+  filename = "${path.module}/greeting.txt"
   content  = "A Terraform módosította a fájl tartalmát."
 }
 ~~~
@@ -518,7 +518,7 @@ A \`main.tf\` tartalma:
 
 ~~~hcl
 resource "local_file" "message" {
-  filename = "\${path.module}/message.txt"
+  filename = "${path.module}/message.txt"
   content  = "Terraform kezeli ezt a fájlt."
 }
 ~~~
@@ -600,7 +600,7 @@ A módosított resource:
 
 ~~~hcl
 resource "local_file" "greeting" {
-  filename = "\${path.module}/greeting.txt"
+  filename = "${path.module}/greeting.txt"
   content  = "A fájl tartalmát frissítettem."
 }
 ~~~
